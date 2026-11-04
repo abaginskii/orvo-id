@@ -41,7 +41,12 @@ function qrSvg(text) {
 }
 
 // Renders the Telegram sign-in into `root`. Calls onDone() after the session cookie is set.
-export function loginFlow(root, { onDone, title = 'Войти в orvo ID', sub = 'Пароль не нужен: вход подтверждается в Telegram.', after = 'Эта страница откроет профиль сама. Если аккаунта ещё нет, создадим его' } = {}) {
+// Inside the Telegram Mini App the page URL carries signed init data in the hash.
+export function telegramInitData() {
+  try { return new URLSearchParams(location.hash.slice(1)).get('tgWebAppData') || window.Telegram?.WebApp?.initData || ''; } catch { return ''; }
+}
+
+export function loginFlow(root, { onDone, resume, title = 'Войти в orvo ID', sub = 'Пароль не нужен: вход подтверждается в Telegram.', after = 'Эта страница откроет профиль сама. Если аккаунта ещё нет, создадим его' } = {}) {
   let timer = null, tick = null, state = null, alive = true;
   const stop = () => { clearTimeout(timer); clearInterval(tick); };
 
@@ -69,7 +74,7 @@ export function loginFlow(root, { onDone, title = 'Войти в orvo ID', sub =
   function waiting() {
     const link = state.link;
     root.innerHTML = `<div class="flow">
-      <div class="waiting">${mark('wait')}<div><h2>Подтвердите вход в Telegram</h2><p>Бот прислал кнопку «Войти». Ссылка действует <span class="timer" data-t>5:00</span></p></div></div>
+      <div class="waiting">${mark('wait')}<div><h2>Подтвердите вход в Telegram</h2><p>Откройте бота и нажмите в нём «Войти». Ссылка действует <span class="timer" data-t>5:00</span></p></div></div>
       ${link ? `<a class="btn wide" href="${esc(link)}" target="_blank" rel="noopener">${tgIcon}<span>Открыть Telegram</span></a>
       <div class="qr"><div class="qr-img" aria-hidden="true">${qrSvg(link)}</div><p>Telegram на телефоне? Наведите камеру на код, и бот откроется там.</p></div>` : ''}
       ${state.dev ? '' : ''}
@@ -133,6 +138,7 @@ export function loginFlow(root, { onDone, title = 'Войти в orvo ID', sub =
     setTimeout(() => onDone?.(user), 1100);
   }
 
-  idle();
+  if (resume) { state = resume; root.innerHTML = `<div class="flow"><div class="waiting">${mark('wait')}<div><h2>Входим через Telegram</h2><p>Секунду…</p></div></div></div>`; poll(); }
+  else idle();
   return { destroy() { alive = false; stop(); } };
 }

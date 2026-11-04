@@ -1,4 +1,4 @@
-import { $, esc, api, mark, avatar, toast, loginFlow } from './ui.js';
+import { $, esc, api, mark, avatar, toast, loginFlow, telegramInitData } from './ui.js';
 import { projects } from './projects.js';
 
 const app = $('#app');
@@ -49,7 +49,10 @@ function renderLanding() {
     <div class="panel" id="login"></div>
   </section>
   ${projectsSection()}`;
-  flow = loginFlow($('#login'), { onDone: () => { history.replaceState(null, '', '/me'); boot(); } });
+  const initData = telegramInitData();
+  const start = resume => { flow = loginFlow($('#login'), { resume, onDone: () => { history.replaceState(null, '', '/me'); boot(); } }); };
+  if (initData) api('/api/login/webapp', { method: 'POST', body: { initData } }).then(start, () => start());
+  else start();
 }
 
 async function renderProfile(data) {

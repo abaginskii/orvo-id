@@ -1,5 +1,5 @@
 // "Полка wants to sign you in with orvo ID": sign in if needed, then send the person back with a one-time code.
-import { $, esc, api, mark, avatar, loginFlow } from './ui.js';
+import { $, esc, api, mark, avatar, loginFlow, telegramInitData } from './ui.js';
 
 const box = $('#box');
 const params = new URLSearchParams(location.search);
