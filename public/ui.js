@@ -66,7 +66,8 @@ export function loginFlow(root, { onDone, resume, title = 'Войти в orvo ID
     try {
       state = await api('/api/login/start', { method: 'POST' });
       waiting();
-      if (state.link && isPhone()) location.href = state.link;
+      // tg:// opens the app without leaving this page (important inside an installed PWA).
+      if (state.link && isPhone()) location.href = `tg://resolve?domain=${encodeURIComponent(state.bot)}&start=login_${state.code}`;
       else if (state.link) window.open(state.link, '_blank', 'noopener');
     } catch (err) { idle(err.message); }
   }

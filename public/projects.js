@@ -15,11 +15,11 @@ export const projects = [
     id: 'skvoz',
     name: 'Сквозь',
     inName: 'Сквозь',
-    about: 'VPN с кабинетом и ботом: подписка одной кнопкой добавляется в Happ или INCY.',
-    url: '',
+    about: 'VPN в одно касание: кабинет-приложение на iPhone, подписка добавляется в Happ или INCY одной кнопкой.',
+    url: 'https://skvoz-vpn.vercel.app',
     color: '#2B4A6F',
     glyph: 'С',
-    status: 'soon',
+    status: 'live',
     orvoLogin: true
   },
   {
