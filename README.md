@@ -1,0 +1,40 @@
+# orvo ID
+
+Один аккаунт для всех проектов orvo. Вход через Telegram без пароля: сайт открывает бота, человек нажимает «Войти», страница входит сама. Если аккаунта нет, он создаётся на месте.
+
+Проекты (Полка, Сквозь) показывают кнопку «Войти с orvo ID». Она ведёт на `/authorize`, человек подтверждает вход, проект получает одноразовый код и обменивает его на профиль у сервера orvo ID.
+
+## Что есть
+
+- **Сайт**: главная со списком проектов orvo, вход через Telegram, создание аккаунта, профиль (имя, ник, проекты, где выполнен вход, сеансы, удаление аккаунта).
+- **Бот**: подтверждает вход кнопками «Войти» / «Это не я», команда `/me`. Работает через webhook, отдельный сервер не нужен.
+- **Вход для проектов**: `/authorize` → `?code=…` → `POST /api/oauth/token`.
+
+## Запуск
+
+```sh
+npm install
+cp .env.example .env   # ORVO_DEV_LOGIN=1 даёт кнопку «Подтвердить без Telegram»
+npm run dev            # http://localhost:4100
+```
+
+## Деплой (Vercel)
+
+1. `npx vercel link`, затем создайте Private Blob store и подключите его к проекту.
+2. Переменные: `ORVO_SECRET` (32+ символа), `PUBLIC_URL`, `ORVO_CLIENTS`.
+3. `npx vercel deploy --prod`.
+4. `npm run setup-bot`: создайте бота в @BotFather, вставьте токен, скрипт сам сохранит его в Vercel и настроит webhook.
+
+## Подключить новый проект
+
+1. Добавьте его в `public/projects.js` (название, цвет, буква, ссылка).
+2. Добавьте в `ORVO_CLIENTS`: `{"id":"…","secret":"…","redirects":["https://…/api/auth/orvo/callback"]}`.
+3. В проекте: ссылка на `ORVO_ID_URL/authorize?client_id=…&redirect_uri=…&state=…`, на колбэке `POST ORVO_ID_URL/api/oauth/token` с `client_id`, `client_secret`, `code`, `redirect_uri`. Ответ: `{ user: { sub, name, username, telegram_id, telegram_username, avatar } }`.
+
+## Файлы
+
+- `lib/router.js`: все API
+- `lib/accounts.js`: аккаунты, сеансы, входы, коды для проектов
+- `lib/telegram.js`: бот
+- `lib/store.js`: хранилище (Vercel Blob или папка `data/` локально)
+- `public/`: сайт, `ui.js` — знак orvo, кнопки и сценарий входа
