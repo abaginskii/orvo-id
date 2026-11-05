@@ -1,6 +1,5 @@
 // "Полка wants to sign you in with orvo ID": sign in if needed, then send the person back with a one-time code.
-import { $, esc, api, mark, avatar, loginFlow, telegramInitData, mountShaderR } from './ui.js';
-mountShaderR($('#fx'));
+import { $, esc, api, mark, avatar, loginFlow, telegramInitData } from './ui.js';
 
 const box = $('#box');
 const params = new URLSearchParams(location.search);
@@ -40,7 +39,7 @@ async function render() {
   box.innerHTML = `${bridge(project)}
     <h1>${esc(project.name)} просит войти через orvo ID</h1>
     <p class="sub">${esc(project.name)} получит:</p>
-    <ul class="shares"><li>имя и ник</li><li>аккаунт Telegram и фото профиля</li><li>постоянный номер orvo ID, чтобы узнавать вас</li><li>тариф orvo plus, если он подключён</li></ul>
+    <ul class="shares"><li>имя и ник</li><li>аккаунт Telegram и фото профиля</li><li>постоянный номер orvo ID, чтобы узнавать вас</li></ul>
     <div class="who">${avatar(user)}<div><b>${esc(user.name)}</b><br><small style="color:var(--muted)">@${esc(user.username)}</small></div></div>
     <div class="flow">
       <button class="btn big wide" data-allow>${mark()}<span>Продолжить как ${esc(user.name.split(' ')[0])}</span></button>
