@@ -174,7 +174,7 @@ function renderProfile(data) {
     return `<li class="project"><span class="glyph" style="background:${esc(p.color)}" aria-hidden="true">${esc(p.glyph)}</span><div><h3>${esc(p.name)}</h3><p>${esc(p.tagline)}</p></div>${action}</li>`;
   }).join('');
 
-  app.innerHTML = `${subCard(subscription)}
+  app.innerHTML = `${owner ? `<a class="owner-card" href="/admin"><b>Управление orvo</b><span>Промокоды и тарифы людей</span></a>` : ''}${subCard(subscription)}
   <div class="grid2">
     <div>
       <section class="card" aria-labelledby="p-apps"><h2 id="p-apps">Сервисы</h2><p>Куда вы входили с orvo ID. Отключите сервис, и при следующем входе он снова спросит разрешение.</p><ul class="projects">${rows}</ul></section>
@@ -194,8 +194,16 @@ function renderProfile(data) {
       </section>
       <section class="card" aria-labelledby="p-del"><h2 id="p-del">Удалить orvo ID</h2><p>Аккаунт, входы и подписка будут удалены. Данные внутри сервисов останутся в самих сервисах.</p><button class="btn danger" data-delete>Удалить аккаунт</button></section>
     </div>
-  </div>
-  ${plusSection(data)}`;
+  </div>`;
+
+  // Ссылка вида /me?promo=CODE: код подставлен, остаётся нажать «Активировать».
+  const code = new URLSearchParams(location.search).get('promo');
+  const input = $('#promo-code');
+  if (code && input) {
+    input.value = code.toUpperCase().slice(0, 32);
+    input.closest('.sub-card')?.scrollIntoView({ block: 'center' });
+    history.replaceState(null, '', location.pathname + location.hash);
+  }
 
   $('[data-logout]').onclick = async () => { await api('/api/logout', { method: 'POST' }); history.replaceState(null, '', '/'); boot(); };
   const form = $('[data-profile]');

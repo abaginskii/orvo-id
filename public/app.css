@@ -370,3 +370,31 @@ footer a { color: var(--ink-2); }
   .pgrid .btn { grid-column: 1 / -1; }
 }
 .prow small { display: block; color: var(--muted); font-size: 13px; margin-top: 4px; }
+
+/* ---------- owner: promo codes and plans ---------- */
+.owner-card { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 18px; padding: 18px 22px; border-radius: 22px; border: 1px solid var(--line); background: var(--dusk); color: var(--ink); text-decoration: none; }
+.owner-card b { font-size: 18px; }
+.owner-card span { color: var(--muted); font-size: 15px; }
+.owner-card::after { content: '→'; color: var(--muted); font-size: 20px; }
+.owner-card:hover { border-color: rgba(255, 255, 255, .3); }
+
+.promo-new { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 18px; margin-top: 18px; }
+.promo-new .field small { display: block; margin-top: 6px; color: var(--muted); font-size: 13px; }
+.promo-new .input { display: flex; align-items: center; gap: 8px; }
+.promo-new .input input { flex: 1; min-width: 0; }
+#c { text-transform: uppercase; }
+.promo-new .lbl { display: block; margin-bottom: 8px; font-size: 14px; color: var(--muted); }
+.promo-new > .btn, .promo-new > .note { grid-column: 1 / -1; }
+.seg { display: flex; flex-wrap: wrap; gap: 6px; }
+.seg button { min-height: 40px; padding: 0 14px; border-radius: 99px; border: 1px solid var(--line); background: transparent; color: var(--ink); font: inherit; font-size: 15px; cursor: pointer; }
+.seg button.on { background: var(--cream); color: var(--night); border-color: var(--cream); }
+.issued { margin-top: 18px; padding: 18px; border-radius: 18px; border: 1px dashed rgba(255, 255, 255, .3); display: grid; gap: 10px; }
+.issued b { font-size: 22px; letter-spacing: .04em; }
+.issued small { display: block; color: var(--muted); }
+.issued code { font-size: 13px; color: var(--muted); overflow-wrap: anywhere; }
+.search { margin: 12px 0 6px; }
+.prow .acts, .issued .acts { display: flex; gap: 6px; flex-wrap: wrap; }
+.foot-note { color: var(--muted); font-size: 14px; margin: 8px 4px 40px; }
+.foot-note a { color: var(--cream); }
+@media (max-width: 640px) { .promo-new { grid-template-columns: 1fr; } .owner-card { flex-wrap: wrap; } }
+.urow[hidden] { display: none; }
