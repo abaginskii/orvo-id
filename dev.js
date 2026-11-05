@@ -10,7 +10,7 @@ const port = Number(process.env.PORT || 4100);
 createServer(async (req, res) => {
   const path = new URL(req.url, 'http://x').pathname;
   if (path.startsWith('/api/')) return handle(req, res);
-  const pages = { '/': 'index.html', '/authorize': 'authorize.html', '/me': 'index.html', '/projects': 'index.html' };
+  const pages = { '/': 'index.html', '/authorize': 'authorize.html', '/me': 'index.html', '/projects': 'index.html', '/plus': 'index.html', '/admin': 'admin.html' };
   const file = pages[path] || normalize(path).replace(/^\/+/, '');
   try {
     const data = await readFile(join('public', file));

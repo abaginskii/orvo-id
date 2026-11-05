@@ -15,6 +15,29 @@ export async function api(path, { method = 'GET', body } = {}) {
 
 export const markSvg = `<svg viewBox="0 0 100 100" aria-hidden="true"><path class="arc" d="M81.6 45A32 32 0 1 1 55 18.4"/><path class="seal" d="M55 18.4A32 32 0 0 1 81.6 45"/><circle class="dot" cx="72.6" cy="27.4" r="9"/></svg>`;
 export const mark = (cls = '') => `<span class="mark ${cls}">${markSvg}</span>`;
+// orvo plus: the same ring, the dot becomes a plus.
+export const plusSvg = `<svg viewBox="0 0 100 100" aria-hidden="true"><path class="arc" d="M81.6 45A32 32 0 1 1 55 18.4"/><path class="cross" d="M72.6 16.4v22M61.6 27.4h22"/></svg>`;
+export const plusMark = (cls = '') => `<span class="mark ${cls}">${plusSvg}</span>`;
+
+// Background light. Shader R behind the night sections, HorizonX Halo Drift on the light band.
+// Both pause off screen and respect reduced motion; Halo is loaded only when its section comes near.
+export function mountShaderR(canvas, colors = {}) {
+  return import('./fx/shader-r.js').then(m => m.attachShaderR(canvas, {
+    white: '#ffffff', dark: '#1A1322', orange: '#331971', scale: 1, distortion: .65, grain: .4, contrast: 1.08, speed: .7, animate: 'on', ...colors
+  }, () => {})).catch(() => null);
+}
+export function mountHalo(canvas) {
+  const start = () => import('./fx/halo.js').then(m => m.mountHaloDrift(canvas, { speed: .6, zoom: 1.15, exposure: 1, saturation: 1.1, vignette: .2, grain: .02 })).catch(() => null);
+  if (!('IntersectionObserver' in window)) return start();
+  const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { io.disconnect(); start(); } }, { rootMargin: '400px' });
+  io.observe(canvas);
+}
+export function reveal(root = document) {
+  const items = root.querySelectorAll('.rise');
+  if (!('IntersectionObserver' in window)) return items.forEach(i => i.classList.add('in'));
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
+  items.forEach(i => io.observe(i));
+}
 const tgIcon = `<svg class="tg-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.4 4.1 2.9 11.2c-1.3.5-1.3 1.2-.2 1.6l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.5l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.5c.3-1.3-.5-1.9-1.4-1.5ZM9.6 14.6l8.8-5.6c.4-.3.8-.1.5.2l-7.4 6.7-.3 3.1-1.6-4.4Z"/></svg>`;
 
 export function avatar(user, cls = '') {

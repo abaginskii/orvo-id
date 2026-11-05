@@ -7,6 +7,9 @@ export const projects = [
     about: 'Учебная полка: загрузите лекцию, получите конспект, понятия и вопросы для самопроверки.',
     url: 'https://study-shelf-three.vercel.app',
     color: '#3E5C4E',
+    glow: '#8F6BFF',
+    kind: 'Учёба',
+    tagline: 'Лекция превращается в конспект, понятия и вопросы',
     glyph: 'П',
     status: 'live',
     orvoLogin: true
@@ -18,6 +21,9 @@ export const projects = [
     about: 'VPN в одно касание: кабинет-приложение на iPhone, подписка добавляется в Happ или INCY одной кнопкой.',
     url: 'https://skvoz-vpn.vercel.app',
     color: '#2B4A6F',
+    glow: '#FF5FA2',
+    kind: 'VPN',
+    tagline: 'Интернет без границ в одно касание',
     glyph: 'С',
     status: 'live',
     orvoLogin: true
@@ -27,10 +33,13 @@ export const projects = [
     name: 'Норма',
     inName: 'Норму',
     about: 'Дневник калорий: норма и БЖУ, продукты по штрихкоду, оценка блюда по фото.',
-    url: 'https://abaginskii.github.io/norm-calories/',
+    url: 'https://norma-orvo.vercel.app',
     color: '#7A5A2E',
+    glow: '#F0603A',
+    kind: 'Питание',
+    tagline: 'Калории и БЖУ по фото, штрихкоду или словами',
     glyph: 'Н',
     status: 'live',
-    orvoLogin: false
+    orvoLogin: true
   }
 ];

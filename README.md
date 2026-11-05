@@ -10,6 +10,17 @@
 - **Бот**: подтверждает вход кнопками «Войти» / «Это не я», команда `/me`. Работает через webhook, отдельный сервер не нужен.
 - **Вход для проектов**: `/authorize` → `?code=…` → `POST /api/oauth/token`.
 
+## orvo plus и premium
+
+Подписка живёт в аккаунте orvo ID, сервисы её только читают. Тарифы и лимиты описаны в `public/plans.js`: plus 299 ₽, premium 599 ₽ в месяц. Оплата пока не подключена, тариф включается промокодом (профиль → «Промокод») или владельцем на `/admin`.
+
+- Владелец: `ADMIN_TELEGRAM_IDS` (Telegram id через запятую) открывает `/admin`, `ADMIN_TOKEN` даёт тот же доступ скриптам (`Authorization: Bearer …`).
+- Сервис узнаёт тариф двумя путями:
+  - при входе: ответ `POST /api/oauth/token` содержит `plan` и `plan_until`;
+  - в любой момент: `POST /api/oauth/plan` с `client_id`, `client_secret` и `sub` или `telegram_id` → `{ plan, until }`.
+- Когда тариф меняется, orvo ID шлёт `POST` на `webhook` сервиса из `ORVO_CLIENTS`: тело `{ type: "plan", sub, telegram_id, plan, until }`, заголовки `x-orvo-timestamp` и `x-orvo-signature` = hex(HMAC-SHA256(client_secret, "{timestamp}.{тело}")).
+- `until` — миллисекунды, `null` значит без срока.
+
 ## Запуск
 
 ```sh

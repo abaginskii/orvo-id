@@ -3,17 +3,39 @@
   "outputDirectory": "public",
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/api/:path*", "destination": "/api/index?__p=:path*" },
-    { "source": "/me", "destination": "/index" },
-    { "source": "/projects", "destination": "/index" }
+    {
+      "source": "/api/:path*",
+      "destination": "/api/index?__p=:path*"
+    },
+    {
+      "source": "/me",
+      "destination": "/index"
+    },
+    {
+      "source": "/projects",
+      "destination": "/index"
+    },
+    {
+      "source": "/plus",
+      "destination": "/index"
+    }
   ],
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Content-Security-Policy", "value": "frame-ancestors 'self' https://web.telegram.org https://*.telegram.org" }
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "frame-ancestors 'self' https://web.telegram.org https://*.telegram.org"
+        }
       ]
     }
   ]
