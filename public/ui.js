@@ -26,12 +26,6 @@ export function mountShaderR(canvas, colors = {}) {
     white: '#ffffff', dark: '#1A1322', orange: '#331971', scale: 1, distortion: .65, grain: .4, contrast: 1.08, speed: .7, animate: 'on', ...colors
   }, () => {})).catch(() => null);
 }
-export function mountHalo(canvas) {
-  const start = () => import('./fx/halo.js').then(m => m.mountHaloDrift(canvas, { speed: .6, zoom: 1.15, exposure: 1, saturation: 1.1, vignette: .2, grain: .02 })).catch(() => null);
-  if (!('IntersectionObserver' in window)) return start();
-  const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { io.disconnect(); start(); } }, { rootMargin: '400px' });
-  io.observe(canvas);
-}
 export function reveal(root = document) {
   const items = root.querySelectorAll('.rise');
   if (!('IntersectionObserver' in window)) return items.forEach(i => i.classList.add('in'));

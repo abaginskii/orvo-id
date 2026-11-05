@@ -152,13 +152,13 @@ button, input, select { font: inherit; color: inherit; }
 .tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
 .tile {
   --glow: var(--rose);
-  position: relative; isolation: isolate; overflow: hidden; border-radius: var(--r-tile); min-height: 420px; padding: 30px;
+  position: relative; isolation: isolate; overflow: hidden; border-radius: var(--r-tile); min-height: 280px; padding: 28px;
   display: flex; flex-direction: column; text-decoration: none; color: #fff;
   background: linear-gradient(180deg, #211830 0%, #1A1322 70%);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .2), inset 0 1px 0 rgba(255, 255, 255, .35);
   transition: transform .5s var(--ease);
 }
-.tile::after { content: ''; position: absolute; left: -20%; right: -20%; bottom: -55%; height: 90%; z-index: -1; border-radius: 50%; background: radial-gradient(closest-side, var(--glow), transparent); opacity: .7; transition: opacity .6s var(--ease), transform .6s var(--ease); }
+.tile::after { content: ''; position: absolute; left: -20%; right: -20%; bottom: -70%; height: 80%; z-index: -1; border-radius: 50%; background: radial-gradient(closest-side, var(--glow), transparent); opacity: .45; transition: opacity .6s var(--ease), transform .6s var(--ease); }
 .tile:hover { transform: translateY(-4px); }
 .tile:hover::after { opacity: 1; transform: translateY(-8%); }
 .tile .kind { font-size: 14px; color: var(--muted); }

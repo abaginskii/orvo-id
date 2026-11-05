@@ -1,4 +1,4 @@
-import { $, esc, api, mark, plusMark, avatar, toast, loginFlow, telegramInitData, mountShaderR, mountHalo, reveal } from './ui.js';
+import { $, esc, api, mark, plusMark, avatar, toast, loginFlow, telegramInitData, mountShaderR, reveal } from './ui.js';
 import { projects } from './projects.js';
 import { PLANS, LIMITS } from './plans.js';
 
@@ -31,10 +31,8 @@ function tiles() {
   return `<div class="tiles">${services.map((p, i) => `<a class="tile rise" style="--glow:${esc(p.glow)};transition-delay:${i * 80}ms" href="${esc(p.url)}" target="_blank" rel="noopener">
       <span class="go" aria-hidden="true">${arrow}</span>
       <span class="glyph" aria-hidden="true">${esc(p.glyph)}</span>
-      <span class="kind">${esc(p.kind)}</span>
       <h3>${esc(p.name)}</h3>
       <p>${esc(p.tagline)}</p>
-      <span class="perk"><span>С orvo plus</span>${esc(plusIn[p.id])}</span>
     </a>`).join('')}</div>`;
 }
 
@@ -55,10 +53,6 @@ function plusSection(me) {
   return `<section class="section" id="plus" aria-labelledby="plus-title">
     <div class="plus-head rise">${plusMark('intro')}<span class="wordplus" id="plus-title">orvo <b>plus</b></span></div>
     <p class="title-sub rise">Одна подписка открывает больше во всех сервисах сразу. Оформили один раз в orvo ID, и Сквозь, Полка и Норма узнают об этом сами.</p>
-    <div class="banner">
-      <div class="big-card rise">${plusMark()}<div class="num">3<small>сервиса</small></div><p>Все сервисы orvo в одной подписке. Отключить можно в любой момент.</p></div>
-      <div class="svc-mini">${services.map(p => `<a class="tile rise" style="--glow:${esc(p.glow)}" href="${esc(p.url)}" target="_blank" rel="noopener"><span class="glyph" aria-hidden="true">${esc(p.glyph)}</span><span><b>${esc(p.name)}</b><small>${esc(plusIn[p.id])}</small></span></a>`).join('')}</div>
-    </div>
     <div class="prices">${priceCard('plus', current)}${priceCard('premium', current)}</div>
     <div class="promo-line rise">
       <p><b>Есть промокод?</b> ${me ? 'Введите его, и тариф включится сразу во всех сервисах.' : 'Войдите в orvo ID и введите его в профиле.'}</p>
@@ -69,17 +63,6 @@ function plusSection(me) {
 
 const promoForm = () => `<form class="promo-form" data-promo novalidate><label class="sr" for="promo-code">Промокод</label><div class="input"><input id="promo-code" name="code" placeholder="ПРОМОКОД" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="32"></div><button class="btn" type="submit">Активировать</button><div class="note err" role="alert" hidden></div></form>`;
 
-function howSection() {
-  return `<section class="halo rise" aria-labelledby="how-title"><canvas class="fx" id="fx-halo" aria-hidden="true"></canvas><div class="inner">
-    <p class="eyebrow">Как это устроено</p>
-    <h2 class="title" id="how-title">Один вход. Одна подписка. Три сервиса.</h2>
-    <ol class="how">
-      <li><span class="n">1</span><b>Входите через Telegram</b><p>Бот orvo ID подтверждает вход одной кнопкой. Ни паролей, ни почты.</p></li>
-      <li><span class="n">2</span><b>Открываете любой сервис</b><p>Сквозь, Полка и Норма узнают вас по кнопке «Войти с orvo ID».</p></li>
-      <li><span class="n">3</span><b>Включаете plus</b><p>Тариф действует сразу везде: VPN без срока, больше ИИ в Полке и Норме.</p></li>
-    </ol>
-  </div></section>`;
-}
 
 function faq() {
   const qa = [
@@ -116,20 +99,17 @@ function renderLanding() {
   nav.innerHTML = '<a class="navlink" href="#services">Сервисы</a><a class="navlink" href="#plus">orvo plus</a><a class="btn ghost" href="#login">Войти</a>';
   hero.innerHTML = `<section class="hero">
     <div>
-      <a class="kicker" href="#plus">${plusMark()}<span><b>orvo plus</b> · одна подписка на всё</span></a>
       <h1>Три сервиса.<br>Один <em>orvo</em>.</h1>
       <p class="lede">VPN, учёба и питание под одним аккаунтом. Вход через Telegram, одна подписка открывает больше везде.</p>
-      <div class="cta"><a class="btn big" href="#login">${mark()}<span>Войти с orvo ID</span></a><a class="btn big night" href="#plus">Что даёт plus</a></div>
+      <div class="cta"><a class="btn big" href="#login">${mark()}<span>Войти с orvo ID</span></a></div>
     </div>
     <div class="panel" id="login"></div>
   </section>`;
   app.innerHTML = `<section class="section" id="services" aria-labelledby="svc-title">
-      <p class="eyebrow rise">Сервисы orvo</p>
       <h2 class="title rise" id="svc-title">Каждый делает одно дело хорошо</h2>
       <p class="title-sub rise">Один аккаунт подходит ко всем. Войдите в любом из них кнопкой «Войти с orvo ID».</p>
       ${tiles()}
     </section>
-    ${howSection()}
     ${plusSection(null)}
     ${faq()}`;
   const initData = telegramInitData();
@@ -137,7 +117,6 @@ function renderLanding() {
   if (initData) api('/api/login/webapp', { method: 'POST', body: { initData } }).then(start, () => start());
   else start();
   bindPromo(app);
-  mountHalo($('#fx-halo'));
   reveal();
 }
 
