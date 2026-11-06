@@ -6,7 +6,7 @@ const params = new URLSearchParams(location.search);
 const request = { client_id: params.get('client_id'), redirect_uri: params.get('redirect_uri'), state: params.get('state') || '' };
 const query = new URLSearchParams({ client_id: request.client_id || '', redirect_uri: request.redirect_uri || '' });
 
-const bridge = p => `<div class="bridge" aria-hidden="true"><span class="glyph" style="background:${esc(p.color || '#2F3033')}">${esc(p.glyph || p.name[0])}</span><span class="wire"></span>${mark('intro')}</div>`;
+const bridge = p => `<div class="bridge" aria-hidden="true">${p.icon ? `<img class="glyph" src="${esc(p.icon)}" alt="">` : `<span class="glyph" style="background:${esc(p.color || '#2F3033')}">${esc(p.glyph || p.name[0])}</span>`}<span class="wire"></span>${mark('intro')}</div>`;
 
 async function go() {
   const btn = box.querySelector('[data-allow]'); if (btn) btn.disabled = true;

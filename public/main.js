@@ -18,11 +18,12 @@ const ago = iso => {
 function projectRow(p, extra = '') {
   const tags = [
     p.orvoLogin ? `<span class="tag orvo">${mark()} Вход через orvo ID</span>` : '',
-    p.status === 'soon' ? '<span class="tag soon">Скоро</span>' : ''
+    p.status === 'soon' ? '<span class="tag soon">Скоро</span>' : '',
+    p.isNew ? '<span class="tag new">Новое</span>' : ''
   ].join('');
   const action = extra || (p.url ? `<a class="open" href="${esc(p.url)}" target="_blank" rel="noopener">Открыть</a>` : '<span></span>');
   return `<li class="project">
-    <span class="glyph" style="background:${esc(p.color)}" aria-hidden="true">${esc(p.glyph)}</span>
+    ${p.icon ? `<img class="glyph" src="${esc(p.icon)}" alt="" aria-hidden="true">` : `<span class="glyph" style="background:${esc(p.color)}" aria-hidden="true">${esc(p.glyph)}</span>`}
     <div><h3>${esc(p.name)}</h3><p>${esc(p.about)}</p>${tags ? `<div class="meta">${tags}</div>` : ''}</div>
     ${action}
   </li>`;
@@ -44,7 +45,7 @@ function renderLanding() {
     <div>
       <div class="wordmark" aria-hidden="true">${mark('intro')}<span>orvo</span></div>
       <h1>Один аккаунт для всех проектов orvo</h1>
-      <p class="lede">Войдите через Telegram или по коду из почты, и Полка, Сквозь и следующие проекты узнают вас без паролей.</p>
+      <p class="lede">Войдите через Telegram или по коду из почты, и Полка, Сквозь, Kite и следующие проекты узнают вас без паролей.</p>
     </div>
     <div class="panel" id="login"></div>
   </section>

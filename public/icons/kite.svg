@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><clipPath id="c"><path d="M0 230C0 60 60 0 230 0H794C964 0 1024 60 1024 230V794C1024 964 964 1024 794 1024H230C60 1024 0 964 0 794Z"/></clipPath><g clip-path="url(#c)">
+  <defs>
+    <filter id="ab" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="150"/></filter>
+    <radialGradient id="ah" cx="30%" cy="12%" r="70%"><stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+    <filter id="as" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="22" stdDeviation="28" flood-color="#1B0B4A" flood-opacity=".35"/></filter>
+    <mask id="am"><rect width="1024" height="1024" fill="#fff"/><path d="M512 214V706M318 440H706" stroke="#000" stroke-width="13" stroke-linecap="round"/></mask>
+  </defs>
+  <rect width="1024" height="1024" fill="#6B3BFF"/>
+  <g filter="url(#ab)">
+    <circle cx="150" cy="170" r="420" fill="#FF3D5A"/>
+    <circle cx="900" cy="120" r="380" fill="#FFB224"/>
+    <circle cx="130" cy="930" r="430" fill="#9B3DFF"/>
+    <circle cx="930" cy="900" r="460" fill="#2F6BFF"/>
+  </g>
+  <rect width="1024" height="1024" fill="url(#ah)"/>
+  <g filter="url(#as)" transform="translate(512 500) scale(0.84) rotate(-14) translate(-512 -470)">
+    <g mask="url(#am)">
+      <path d="M512 200 718 440 512 720 306 440Z" fill="#fff" stroke="#fff" stroke-width="44" stroke-linejoin="round"/>
+      <path d="M512 200 718 440 512 720Z" fill="#E6E0FF" opacity=".6"/>
+    </g>
+    <path d="M512 748C470 800 566 836 520 890S430 944 468 1000" fill="none" stroke="#fff" stroke-width="28" stroke-linecap="round"/>
+  </g></g></svg>

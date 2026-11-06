@@ -35,13 +35,14 @@ export const projects = [
   },
   {
     id: 'rovno',
-    name: 'Ровно',
-    inName: 'Ровно',
-    about: 'Спокойный план на день: шкала времени, маленькие шаги, ИИ-помощник и место, куда можно отложить тревогу.',
+    name: 'Kite',
+    inName: 'Kite',
+    about: 'Планировщик с ИИ: надиктуй, что нужно сделать, — Kite разложит день. Пары из Apple Календаря, маленькие шаги, бережно к тревоге.',
     url: 'https://rovno-orvo.vercel.app',
-    color: '#5E62E8',
-    glyph: 'Р',
+    color: '#7B3DFF',
+    glyph: 'K',
+    icon: '/icons/kite.svg',
     status: 'live',
+    isNew: true,
     orvoLogin: true
-  }
-];
+  }];
