@@ -32,5 +32,16 @@ export const projects = [
     glyph: 'Н',
     status: 'live',
     orvoLogin: false
+  },
+  {
+    id: 'rovno',
+    name: 'Ровно',
+    inName: 'Ровно',
+    about: 'Спокойный план на день: шкала времени, маленькие шаги, ИИ-помощник и место, куда можно отложить тревогу.',
+    url: 'https://rovno-orvo.vercel.app',
+    color: '#5E62E8',
+    glyph: 'Р',
+    status: 'live',
+    orvoLogin: true
   }
 ];
