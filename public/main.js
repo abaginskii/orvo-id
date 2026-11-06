@@ -45,7 +45,7 @@ function renderLanding() {
     <div>
       <div class="wordmark" aria-hidden="true">${mark('intro')}<span>orvo</span></div>
       <h1>Один аккаунт для всех проектов orvo</h1>
-      <p class="lede">Войдите через Telegram или по коду из почты, и Полка, Сквозь, Kite и следующие проекты узнают вас без паролей.</p>
+      <p class="lede">Войдите через Telegram или по коду из почты, и Сквозь, Kite, Полка и следующие проекты узнают вас без паролей.</p>
     </div>
     <div class="panel" id="login"></div>
   </section>
@@ -110,7 +110,7 @@ async function renderProfile(data) {
       </section>
       <section class="card" aria-labelledby="p-del">
         <h2 id="p-del">Удалить orvo ID</h2>
-        <p>Аккаунт и все входы будут удалены. Данные внутри Полки и Сквозь останутся в самих проектах.</p>
+        <p>Аккаунт и все входы будут удалены. Данные внутри Сквозь, Kite и Полки останутся в самих проектах.</p>
         <button class="btn danger" data-delete>Удалить аккаунт</button>
       </section>
     </div>

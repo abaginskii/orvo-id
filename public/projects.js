@@ -1,6 +1,18 @@
 // All orvo projects. Used by the site (list, profile) and the server (client names on the consent screen).
 export const projects = [
   {
+    id: 'skvoz',
+    name: 'Сквозь',
+    inName: 'Сквозь',
+    about: 'VPN в одно касание: кабинет-приложение на iPhone, подписка добавляется в Happ или INCY одной кнопкой.',
+    url: 'https://skvoz-vpn.vercel.app',
+    color: '#2B4A6F',
+    glyph: 'С',
+    icon: '/icons/skvoz.png',
+    status: 'live',
+    orvoLogin: true
+  },
+  {
     id: 'rovno',
     name: 'Kite',
     inName: 'Kite',
@@ -21,17 +33,7 @@ export const projects = [
     url: 'https://study-shelf-three.vercel.app',
     color: '#3E5C4E',
     glyph: 'П',
-    status: 'live',
-    orvoLogin: true
-  },
-  {
-    id: 'skvoz',
-    name: 'Сквозь',
-    inName: 'Сквозь',
-    about: 'VPN в одно касание: кабинет-приложение на iPhone, подписка добавляется в Happ или INCY одной кнопкой.',
-    url: 'https://skvoz-vpn.vercel.app',
-    color: '#2B4A6F',
-    glyph: 'С',
+    icon: '/icons/polka.png',
     status: 'live',
     orvoLogin: true
   },
@@ -43,6 +45,7 @@ export const projects = [
     url: 'https://abaginskii.github.io/norm-calories/',
     color: '#7A5A2E',
     glyph: 'Н',
+    icon: '/icons/norma.png',
     status: 'live',
     orvoLogin: false
   }
