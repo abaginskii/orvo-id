@@ -44,7 +44,7 @@ function renderLanding() {
     <div>
       <div class="wordmark" aria-hidden="true">${mark('intro')}<span>orvo</span></div>
       <h1>Один аккаунт для всех проектов orvo</h1>
-      <p class="lede">Войдите один раз через Telegram, и Полка, Сквозь и следующие проекты узнают вас без паролей и почты.</p>
+      <p class="lede">Войдите через Telegram или по коду из почты, и Полка, Сквозь и следующие проекты узнают вас без паролей.</p>
     </div>
     <div class="panel" id="login"></div>
   </section>
@@ -74,8 +74,16 @@ async function renderProfile(data) {
       <div class="ids"><span class="tag">@${esc(user.username)}</span>${user.telegram ? `<span class="tag">Telegram @${esc(user.telegram)}</span>` : ''}<span class="tag soon">С нами с ${date(user.createdAt)}</span></div>
     </div>
   </section>
+  ${user.hasTelegram ? '' : `<div class="hint-card"><div><b>Входите в одно нажатие</b><p>Привяжите Telegram, и вводить код из письма больше не придётся.</p></div><button class="btn" data-link-tg>Привязать</button></div>`}
   <div class="grid2">
     <div>
+      <section class="card" aria-labelledby="p-ways">
+        <h2 id="p-ways">Способы входа</h2>
+        <p>Если один недоступен, войдёте другим.</p>
+        <div class="way"><div><b>Telegram</b><small>${user.hasTelegram ? (user.telegram ? '@' + esc(user.telegram) : 'Привязан') : 'Вход кнопкой в боте, без кода'}</small></div>${user.hasTelegram ? '<span class="ok">Привязан</span>' : '<button class="btn plain" data-link-tg>Привязать</button>'}</div>
+        <div class="way"><div><b>Почта</b><small>${user.email ? esc(user.email) : 'Код на почту, если Telegram не открывается'}</small></div><button class="btn plain" data-mail-add>${user.email ? 'Изменить' : 'Добавить'}</button></div>
+        <div data-way-box></div>
+      </section>
       <section class="card" aria-labelledby="p-apps">
         <h2 id="p-apps">Проекты</h2>
         <p>Куда вы входили с orvo ID. Отключите проект, и при следующем входе он снова спросит разрешение.</p>
@@ -107,6 +115,59 @@ async function renderProfile(data) {
     </div>
   </div>
   ${projectsSection()}`;
+
+  // ----- ways in: add e-mail, link Telegram -----
+  const box = $('[data-way-box]');
+  app.querySelectorAll('[data-mail-add]').forEach(b => b.onclick = () => mailForm());
+  function mailForm(message, email = '') {
+    box.innerHTML = `<form class="form" novalidate style="margin-top:12px">
+      <div class="field"><label for="w-mail">Почта</label><div class="input"><input id="w-mail" name="email" type="email" inputmode="email" autocomplete="email" value="${esc(email)}" placeholder="you@example.ru"></div></div>
+      <div class="note err" role="alert" ${message ? '' : 'hidden'}>${esc(message || '')}</div>
+      <div class="row"><button class="btn" type="submit">Прислать код</button><button class="link" type="button" data-cancel>Отмена</button></div></form>`;
+    const f = box.querySelector('form'); f.email.focus();
+    box.querySelector('[data-cancel]').onclick = () => { box.innerHTML = ''; };
+    f.onsubmit = async e => {
+      e.preventDefault();
+      const mail = f.email.value.trim();
+      try { await api('/api/me/email/start', { method: 'POST', body: { email: mail } }); codeForm(mail); }
+      catch (x) { mailForm(x.message, mail); }
+    };
+  }
+  function codeForm(mail, message) {
+    box.innerHTML = `<form class="form" novalidate style="margin-top:12px">
+      <p style="margin:0">Код отправлен на <b>${esc(mail)}</b>.</p>
+      <div class="field"><label for="w-code">Код из письма</label><div class="input"><input id="w-code" name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" class="code-input"></div></div>
+      <div class="note err" role="alert" ${message ? '' : 'hidden'}>${esc(message || '')}</div>
+      <div class="row"><button class="btn" type="submit">Подтвердить</button><button class="link" type="button" data-cancel>Отмена</button></div></form>`;
+    const f = box.querySelector('form'); f.code.focus();
+    box.querySelector('[data-cancel]').onclick = () => { box.innerHTML = ''; };
+    f.code.addEventListener('input', () => { f.code.value = f.code.value.replace(/\D/g, '').slice(0, 6); if (f.code.value.length === 6) f.requestSubmit(); });
+    f.onsubmit = async e => {
+      e.preventDefault();
+      try { await api('/api/me/email/verify', { method: 'POST', body: { email: mail, code: f.code.value } }); toast('Почта привязана'); boot(); }
+      catch (x) { codeForm(mail, x.message); }
+    };
+  }
+  let linkTimer = null;
+  app.querySelectorAll('[data-link-tg]').forEach(b => b.onclick = async () => {
+    try {
+      const st = await api('/api/me/telegram/start', { method: 'POST' });
+      box.innerHTML = `<div class="hint-card" style="margin:12px 0 0"><div><b>Подтвердите в Telegram</b><p>Откройте бота orvo ID и нажмите «Привязать».</p></div>${st.link ? `<a class="btn" href="${esc(st.link)}" target="_blank" rel="noopener">Открыть</a>` : ''}</div>
+        ${window.__orvoDev ? '<button class="link" data-dev-link>Подтвердить без Telegram (разработка)</button>' : ''}`;
+      box.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      if (st.link) window.open(st.link, '_blank', 'noopener');
+      box.querySelector('[data-dev-link]')?.addEventListener('click', () => api('/api/login/dev-approve', { method: 'POST', body: { code: st.code, tgId: 200002, tgUsername: 'linked_dev' } }));
+      const poll = async () => {
+        try {
+          const r = await api('/api/me/telegram/poll', { method: 'POST', body: { code: st.code, poll: st.poll } });
+          if (r.status === 'pending') { linkTimer = setTimeout(poll, 1500); return; }
+          if (r.status === 'done') { toast('Telegram привязан'); return boot(); }
+          box.innerHTML = `<p class="note err">${r.status === 'denied' ? 'Привязка отклонена в Telegram.' : 'Время вышло. Попробуйте ещё раз.'}</p>`;
+        } catch (x) { box.innerHTML = `<p class="note err">${esc(x.message)}</p>`; }
+      };
+      clearTimeout(linkTimer); poll();
+    } catch (x) { toast(x.message); }
+  });
 
   $('[data-logout]').onclick = async () => { await api('/api/logout', { method: 'POST' }); history.replaceState(null, '', '/'); boot(); };
   const form = $('[data-profile]');

@@ -4,14 +4,17 @@
   "private": true,
   "type": "module",
   "description": "orvo ID: один аккаунт для всех проектов orvo, вход через Telegram",
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "dev": "node --env-file-if-exists=.env dev.js",
     "setup-bot": "node scripts/setup-bot.mjs",
     "test": "node --test tests/"
   },
   "dependencies": {
-    "@vercel/blob": "2.8.0"
+    "@vercel/blob": "2.8.0",
+    "nodemailer": "6.9.16"
   },
   "devDependencies": {
     "qrcode-generator": "1.4.4"

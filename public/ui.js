@@ -57,8 +57,68 @@ export function loginFlow(root, { onDone, resume, title = 'Войти в orvo ID
       ${message ? `<div class="note err" role="alert">${esc(message)}</div>` : ''}
       <button class="btn big wide" data-go>${tgIcon}<span>Войти через Telegram</span></button>
       <ol class="steps"><li>Откроется бот orvo ID в Telegram</li><li>Нажмите в нём «Войти»</li><li>${esc(after)}</li></ol>
+      <div class="or-line"><span>или</span></div>
+      <button class="btn wide ghost" data-mail>Войти по коду из e-mail</button>
     </div>`;
     root.querySelector('[data-go]').onclick = start;
+    root.querySelector('[data-mail]').onclick = () => emailStep();
+  }
+
+  // ----- e-mail code: the way in when Telegram is not at hand -----
+  let mail = '';
+  function emailStep(message) {
+    stop();
+    root.innerHTML = `<form class="flow form" novalidate>
+      <div><h2>Вход по почте</h2><p class="sub" style="margin:0">Пришлём код из шести цифр. Если аккаунта ещё нет, создадим его.</p></div>
+      <div class="field"><label for="f-mail">Почта</label><div class="input"><input id="f-mail" name="email" type="email" inputmode="email" autocomplete="email" required value="${esc(mail)}" placeholder="you@example.ru"></div></div>
+      <div class="note err" role="alert" ${message ? '' : 'hidden'}>${esc(message || '')}</div>
+      <button class="btn big wide" type="submit">Получить код</button>
+      <button class="link" type="button" data-back>Войти через Telegram</button>
+    </form>`;
+    const form = root.querySelector('form');
+    form.email.focus();
+    root.querySelector('[data-back]').onclick = () => idle();
+    form.onsubmit = async ev => {
+      ev.preventDefault();
+      const btn = form.querySelector('[type=submit]'); btn.disabled = true;
+      mail = form.email.value.trim();
+      try { await api('/api/login/email/start', { method: 'POST', body: { email: mail } }); codeStep(); }
+      catch (e2) { emailStep(e2.message); }
+    };
+  }
+
+  function codeStep(message) {
+    root.innerHTML = `<form class="flow form" novalidate>
+      <div><h2>Введите код</h2><p class="sub" style="margin:0">Отправили на <b>${esc(mail)}</b>. Если письма нет, проверьте «Спам».</p></div>
+      <div class="field"><label for="f-code">Код из письма</label><div class="input"><input id="f-code" name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]*" required class="code-input"></div></div>
+      <div class="note err" role="alert" ${message ? '' : 'hidden'}>${esc(message || '')}</div>
+      <button class="btn big wide" type="submit">Войти</button>
+      <div class="row" style="justify-content:space-between"><button class="link" type="button" data-other>Другая почта</button><button class="link" type="button" data-again disabled>Отправить ещё раз <span data-wait>(60)</span></button></div>
+    </form>`;
+    const form = root.querySelector('form');
+    form.code.focus();
+    const again = root.querySelector('[data-again]'), wait = root.querySelector('[data-wait]');
+    let left = 60;
+    tick = setInterval(() => { left -= 1; wait.textContent = left > 0 ? `(${left})` : ''; if (left <= 0) { again.disabled = false; clearInterval(tick); } }, 1000);
+    root.querySelector('[data-other]').onclick = () => emailStep();
+    again.onclick = async () => {
+      again.disabled = true;
+      try { await api('/api/login/email/start', { method: 'POST', body: { email: mail } }); stop(); codeStep(); }
+      catch (e2) { codeStep(e2.message); }
+    };
+    // Six digits typed or pasted: no need to press the button.
+    form.code.addEventListener('input', () => { form.code.value = form.code.value.replace(/\D/g, '').slice(0, 6); if (form.code.value.length === 6) form.requestSubmit(); });
+    form.onsubmit = async ev => {
+      ev.preventDefault();
+      const btn = form.querySelector('[type=submit]'); btn.disabled = true;
+      try {
+        const r = await api('/api/login/email/verify', { method: 'POST', body: { email: mail, code: form.code.value } });
+        stop();
+        if (r.status === 'done') return sealed(r.user);
+        state = { proof: r.proof };
+        return createAccount({ ...r.suggest, viaEmail: true });
+      } catch (e2) { stop(); codeStep(e2.message); }
+    };
   }
 
   async function start(e) {
@@ -112,8 +172,8 @@ export function loginFlow(root, { onDone, resume, title = 'Войти в orvo ID
 
   function createAccount(s) {
     root.innerHTML = `<form class="flow form" novalidate>
-      <div><h2>Создайте orvo ID</h2><p class="sub" style="margin:0">Telegram подтвердил, что это вы. Осталось выбрать, как вас называть.</p></div>
-      <div class="newbie">${avatar({ name: s.name })}<div><b>${esc(s.name)}</b><br><small style="color:var(--muted)">${s.telegram ? 'Telegram @' + esc(s.telegram) : 'Telegram'}</small></div></div>
+      <div><h2>Создайте orvo ID</h2><p class="sub" style="margin:0">${s.viaEmail ? 'Почта подтверждена.' : 'Telegram подтвердил, что это вы.'} Осталось выбрать, как вас называть.</p></div>
+      ${s.viaEmail ? '' : `<div class="newbie">${avatar({ name: s.name })}<div><b>${esc(s.name)}</b><br><small style="color:var(--muted)">${s.telegram ? 'Telegram @' + esc(s.telegram) : 'Telegram'}</small></div></div>`}
       <div class="field"><label for="f-name">Имя</label><div class="input"><input id="f-name" name="name" maxlength="48" required value="${esc(s.name)}" autocomplete="name"></div></div>
       <div class="field"><label for="f-user">Ник</label><div class="input"><span>@</span><input id="f-user" name="username" maxlength="24" required value="${esc(s.username)}" autocapitalize="off" spellcheck="false"></div><span class="hint">Латиница, цифры и _. Его увидят проекты, в которые вы войдёте.</span></div>
       <div class="note err" role="alert" hidden></div>
@@ -125,7 +185,7 @@ export function loginFlow(root, { onDone, resume, title = 'Войти в orvo ID
       const btn = form.querySelector('button'); btn.disabled = true;
       const err = form.querySelector('.note');
       try {
-        const r = await api('/api/login/create', { method: 'POST', body: { code: state.code, poll: state.poll, name: form.name.value, username: form.username.value } });
+        const r = await api('/api/login/create', { method: 'POST', body: state.proof ? { proof: state.proof, name: form.name.value, username: form.username.value } : { code: state.code, poll: state.poll, name: form.name.value, username: form.username.value } });
         sealed(r.user, true);
       } catch (e2) { err.hidden = false; err.textContent = e2.message; btn.disabled = false; }
     };

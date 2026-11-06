@@ -232,3 +232,20 @@ footer { padding: 40px 0 56px; color: var(--muted); font-size: 14px; display: fl
   .mark.intro .dot { transform: none; }
 }
 .consent .flow h2, .consent .flow .sub { text-align: center; }
+
+/* e-mail sign-in */
+.btn.ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--line); }
+.btn.ghost::before { display: none; }
+.btn.ghost:hover { box-shadow: inset 0 0 0 1.5px var(--ink); }
+.or-line { display: flex; align-items: center; gap: 12px; color: var(--muted); font-size: 14px; }
+.or-line::before, .or-line::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+.code-input { font-size: 28px !important; letter-spacing: .35em; text-align: center; font-variant-numeric: tabular-nums; }
+.way { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-top: 1px solid var(--line); }
+.way:first-of-type { border-top: 0; }
+.way > div { flex: 1; min-width: 0; }
+.way b { display: block; }
+.way small { color: var(--muted); overflow-wrap: anywhere; }
+.way .ok { color: var(--ok); font-size: 14px; }
+.hint-card { display: flex; gap: 14px; align-items: center; padding: 16px 18px; border-radius: 18px; background: var(--paper); box-shadow: inset 0 0 0 1px var(--line); margin-bottom: 18px; }
+.hint-card > div { flex: 1; }
+.hint-card p { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
