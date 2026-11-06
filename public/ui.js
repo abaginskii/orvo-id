@@ -57,11 +57,11 @@ export function loginFlow(root, { onDone, resume, title = 'Войти в orvo ID
       ${message ? `<div class="note err" role="alert">${esc(message)}</div>` : ''}
       <button class="btn big wide" data-go>${tgIcon}<span>Войти через Telegram</span></button>
       <ol class="steps"><li>Откроется бот orvo ID в Telegram</li><li>Нажмите в нём «Войти»</li><li>${esc(after)}</li></ol>
-      <div class="or-line"><span>или</span></div>
-      <button class="btn wide ghost" data-mail>Войти по коду из e-mail</button>
+      ${window.__orvoEmail === false ? '' : `<div class="or-line"><span>или</span></div>
+      <button class="btn wide ghost" data-mail>Войти по коду из e-mail</button>`}
     </div>`;
     root.querySelector('[data-go]').onclick = start;
-    root.querySelector('[data-mail]').onclick = () => emailStep();
+    root.querySelector('[data-mail]')?.addEventListener('click', () => emailStep());
   }
 
   // ----- e-mail code: the way in when Telegram is not at hand -----

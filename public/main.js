@@ -81,7 +81,7 @@ async function renderProfile(data) {
         <h2 id="p-ways">Способы входа</h2>
         <p>Если один недоступен, войдёте другим.</p>
         <div class="way"><div><b>Telegram</b><small>${user.hasTelegram ? (user.telegram ? '@' + esc(user.telegram) : 'Привязан') : 'Вход кнопкой в боте, без кода'}</small></div>${user.hasTelegram ? '<span class="ok">Привязан</span>' : '<button class="btn plain" data-link-tg>Привязать</button>'}</div>
-        <div class="way"><div><b>Почта</b><small>${user.email ? esc(user.email) : 'Код на почту, если Telegram не открывается'}</small></div><button class="btn plain" data-mail-add>${user.email ? 'Изменить' : 'Добавить'}</button></div>
+        ${window.__orvoEmail === false && !user.email ? '' : `<div class="way"><div><b>Почта</b><small>${user.email ? esc(user.email) : 'Код на почту, если Telegram не открывается'}</small></div><button class="btn plain" data-mail-add>${user.email ? 'Изменить' : 'Добавить'}</button></div>`}
         <div data-way-box></div>
       </section>
       <section class="card" aria-labelledby="p-apps">
@@ -205,5 +205,6 @@ async function boot() {
 
 api('/api/config').then(c => {
   window.__orvoDev = c.devLogin;
+  window.__orvoEmail = c.email !== false;
   if (c.bot) $('#bot-link').innerHTML = `Бот: <a href="https://t.me/${esc(c.bot)}">@${esc(c.bot)}</a>`;
 }).catch(() => {}).finally(boot);

@@ -49,4 +49,4 @@ async function render() {
   box.querySelector('[data-switch]').onclick = async () => { await api('/api/logout', { method: 'POST' }); render(); };
 }
 
-api('/api/config').then(c => { window.__orvoDev = c.devLogin; }).catch(() => {}).finally(render);
+api('/api/config').then(c => { window.__orvoDev = c.devLogin; window.__orvoEmail = c.email !== false; }).catch(() => {}).finally(render);
