@@ -48,5 +48,18 @@ export const projects = [
     icon: '/icons/norma.png',
     status: 'live',
     orvoLogin: false
+  },
+  {
+    id: 'mise',
+    name: 'Mise',
+    inName: 'Mise',
+    about: 'Красивая книга своих рецептов: вставь рецепт из заметок — ИИ разложит ингредиенты и шаги и посчитает КБЖУ. Режим готовки по шагам.',
+    url: 'https://mise-orvo.vercel.app',
+    color: '#C8692F',
+    glyph: 'M',
+    icon: '/icons/mise.svg',
+    status: 'live',
+    isNew: true,
+    orvoLogin: true
   }
 ];
