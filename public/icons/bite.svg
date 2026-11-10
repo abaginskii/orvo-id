@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><clipPath id="c"><path d="M0 230C0 60 60 0 230 0H794C964 0 1024 60 1024 230V794C1024 964 964 1024 794 1024H230C60 1024 0 964 0 794Z"/></clipPath><g clip-path="url(#c)">
+  <defs>
+    <linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D99A1E"/><stop offset=".55" stop-color="#EBC25E"/><stop offset="1" stop-color="#F7E6B8"/></linearGradient>
+    <filter id="ab" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="120"/></filter>
+    <filter id="as" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="22" stdDeviation="30" flood-color="#8A5A00" flood-opacity=".35"/></filter>
+    <mask id="am"><rect width="1024" height="1024" fill="#fff"/><circle cx="742" cy="330" r="92" fill="#000"/><circle cx="790" cy="452" r="86" fill="#000"/><circle cx="700" cy="230" r="70" fill="#000"/></mask>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#ag)"/>
+  <g filter="url(#ab)"><circle cx="220" cy="180" r="300" fill="#C9800C" opacity=".55"/><circle cx="820" cy="900" r="320" fill="#FFF4D6" opacity=".9"/></g>
+  <g transform="translate(512 532) scale(1) translate(-512 -532)" filter="url(#as)">
+    <circle cx="512" cy="532" r="300" fill="#fff" mask="url(#am)"/>
+  </g></g></svg>

@@ -38,16 +38,17 @@ export const projects = [
     orvoLogin: true
   },
   {
-    id: 'norma',
-    name: 'Норма',
-    inName: 'Норму',
-    about: 'Дневник калорий: норма и БЖУ, продукты по штрихкоду, оценка блюда по фото.',
-    url: 'https://abaginskii.github.io/norm-calories/',
-    color: '#7A5A2E',
-    glyph: 'Н',
-    icon: '/icons/norma.png',
+    id: 'bite',
+    name: 'Bite',
+    inName: 'Bite',
+    about: 'Счётчик калорий без рутины: скажи, что съел, — ИИ найдёт продукты и посчитает КБЖУ. Штрихкод, фото этикетки, общая база продуктов.',
+    url: 'https://bite-orvo.vercel.app',
+    color: '#D99A1E',
+    glyph: 'B',
+    icon: '/icons/bite.svg',
     status: 'live',
-    orvoLogin: false
+    isNew: true,
+    orvoLogin: true
   },
   {
     id: 'mise',
