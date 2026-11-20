@@ -55,3 +55,8 @@ npm run dev            # http://localhost:4100
 
 Без `SMTP_PASSWORD` локально код пишется в журнал сервера, а на Vercel вход по почте отвечает, что ещё не настроен.
 Сервисы получают `telegram_id: null` у тех, кто вошёл только по почте; Сквозь хранит таких людей по номеру, выведенному из orvo ID.
+
+## Письма orvo (подписка с сайта)
+
+`POST /api/news/start {email}` — код на почту (те же лимиты, что у входа). `POST /api/news/verify {email, code, source}` — адрес попадает в `news/`, уходит письмо «orvo ID: почта подтверждена». `GET /api/news/unsubscribe?e=…&t=…` — отписка по ссылке из письма.
+Вызывать из браузера можно с `orvo-home.vercel.app`, `orvo-home.pages.dev` и адресов из `NEWS_ORIGINS` (через запятую).
