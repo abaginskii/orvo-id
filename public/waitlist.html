@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>orvo — лист ожидания Kite и Полки</title>
+<meta name="description" content="orvo — спокойные приложения для учёбы. Kite раскладывает день, Полка делает конспекты из лекций. Займи место в листе ожидания.">
+<meta name="theme-color" content="#000000">
+<meta property="og:title" content="orvo — лист ожидания Kite и Полки">
+<meta property="og:description" content="Спокойные приложения для учёбы. Займи место в листе ожидания.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap">
+<link rel="stylesheet" href="/waitlist.css">
+</head>
+<body>
+
+<header class="nav" data-nav>
+  <div class="nav-in">
+    <a class="logo enter" href="#top" style="--d:0ms">orvo</a>
+    <button class="pill enter" data-menu style="--d:200ms" aria-expanded="false" aria-controls="menu"><span data-menu-label>Навигация</span></button>
+    <span class="nav-mark enter" style="--d:400ms" aria-hidden="true">
+      <svg viewBox="0 0 100 100"><path d="M81.6 45A32 32 0 1 1 55 18.4" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round"/><circle cx="72.6" cy="27.4" r="9" fill="currentColor"/></svg>
+    </span>
+    <button class="burger enter" data-menu style="--d:200ms" aria-label="Открыть меню" aria-expanded="false" aria-controls="menu"><i></i><i></i></button>
+  </div>
+</header>
+
+<div class="menu" id="menu" data-overlay aria-hidden="true">
+  <nav>
+    <a href="#top" style="--i:0">Главная</a>
+    <a href="#kite" style="--i:1">Kite</a>
+    <a href="#polka" style="--i:2">Полка</a>
+    <a href="#join" style="--i:3">Лист ожидания</a>
+  </nav>
+</div>
+
+<main>
+  <section class="hero" id="top">
+    <div class="hero-media" data-hero-media>
+      <video autoplay muted loop playsinline src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260819_212700_3bb9329b-5c50-4257-a09b-ca85cf3654a3.mp4"></video>
+    </div>
+    <div class="hero-copy">
+      <h1 class="serif rise" style="--d:400ms">Спокойные приложения<br class="br"> для учёбы и жизни</h1>
+      <p class="hero-sub rise" style="--d:600ms">Kite и Полка выходят в новом виде. Займи место в листе ожидания.</p>
+      <a class="cta rise" href="#join" style="--d:800ms">Встать в лист ожидания</a>
+    </div>
+  </section>
+
+  <!-- Манифест: слова проявляются при прокрутке -->
+  <section class="manifest" aria-label="Об orvo">
+    <p class="serif reveal-words" data-words>orvo — маленькие приложения, которые снимают с головы лишнее: расписание, сроки, конспекты. Один аккаунт, тихий дизайн и никаких «просрочено».</p>
+  </section>
+
+  <!-- Kite -->
+  <section class="chapter" id="kite">
+    <div class="ch-text">
+      <p class="eyebrowless">Kite</p>
+      <h2 class="serif">Скажи — и день сложится</h2>
+      <ul class="perks">
+        <li><b>День по часам.</b> Пары из Apple Календаря и дела на одной линии, видно свободные окна.</li>
+        <li><b>Посещаемость сама.</b> После пары — «Был?» прямо в уведомлении, процент и серия.</li>
+        <li><b>Фокус-путешествия.</b> Полёт, поезд, погружение — и звуки для учёбы, время в Dynamic Island.</li>
+      </ul>
+    </div>
+    <div class="ch-visual kite-visual" data-tilt>
+      <div class="glow"></div>
+      <img src="/icons/kite-app.png" alt="Иконка Kite" width="200" height="200" class="app-icon">
+      <div class="float f1"><small>10:00–11:30</small><b>Матанализ</b><i class="bar" style="--c:#869FC2"></i></div>
+      <div class="float f2"><small>Посещаемость</small><b>92%</b></div>
+      <div class="float f3"><small>Полёт · ДОМ → МАТ</small><b>24:18</b></div>
+    </div>
+  </section>
+
+  <!-- Полка -->
+  <section class="chapter flip" id="polka">
+    <div class="ch-text">
+      <p class="eyebrowless">Полка</p>
+      <h2 class="serif">Лекция превращается в конспект</h2>
+      <ul class="perks">
+        <li><b>Загрузил — готово.</b> Файл или запись лекции становится понятным конспектом.</li>
+        <li><b>Главные понятия.</b> Определения собраны отдельно, чтобы повторить за пять минут.</li>
+        <li><b>Вопросы себе.</b> Самопроверка перед семинаром и экзаменом.</li>
+      </ul>
+    </div>
+    <div class="ch-visual polka-visual" data-tilt data-fan>
+      <div class="glow green"></div>
+      <div class="sheet s3"><small>Вопросы</small><b>Что такое предел последовательности?</b></div>
+      <div class="sheet s2"><small>Понятия</small><b>Предел · Сходимость · Окрестность</b></div>
+      <div class="sheet s1"><img src="/icons/polka.png" alt="" width="44" height="44"><small>Конспект · Лекция 4</small><b>Пределы и непрерывность</b><span class="lines"><i></i><i></i><i></i></span></div>
+    </div>
+  </section>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="track"><span>Один аккаунт orvo</span><span>Без рекламы</span><span>iPhone и браузер</span><span>ИИ, который не давит</span><span>Тихий дизайн</span><span>Один аккаунт orvo</span><span>Без рекламы</span><span>iPhone и браузер</span><span>ИИ, который не давит</span><span>Тихий дизайн</span></div>
+  </div>
+
+  <!-- Лист ожидания -->
+  <section class="join" id="join">
+    <h2 class="serif">Займи место</h2>
+    <p class="join-sub">Пришлём одно письмо, когда откроем доступ. Почту подтвердим кодом — так в листе только живые люди.</p>
+    <p class="count" data-count-wrap hidden>Уже <b data-count>0</b> в листе ожидания</p>
+
+    <form class="card" data-step="email" novalidate>
+      <fieldset class="products">
+        <legend>Что ждёшь</legend>
+        <label><input type="checkbox" name="p" value="kite" checked><span><img src="/icons/kite-app.png" alt="" width="22" height="22">Kite</span></label>
+        <label><input type="checkbox" name="p" value="polka" checked><span><img src="/icons/polka.png" alt="" width="22" height="22">Полка</span></label>
+      </fieldset>
+      <label class="field"><span>Почта</span><input type="email" name="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required aria-describedby="email-hint"></label>
+      <p class="hint" id="email-hint">Код придёт от orvo ID, письмо — одно.</p>
+      <p class="error" role="alert" data-error></p>
+      <button class="cta wide" type="submit">Получить код</button>
+    </form>
+
+    <form class="card" data-step="code" hidden novalidate>
+      <p class="sent">Код отправлен на <b data-email></b></p>
+      <label class="field"><span>Код из письма</span><input name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="000000" class="code" required></label>
+      <p class="error" role="alert" data-error></p>
+      <button class="cta wide" type="submit">Подтвердить</button>
+      <button class="link" type="button" data-back>Другая почта</button>
+    </form>
+
+    <div class="card done" data-step="done" hidden>
+      <div class="ring" aria-hidden="true"></div>
+      <h3 class="serif">Ты в листе</h3>
+      <p data-done-text>Напишем, когда откроем доступ.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <span>orvo · <a href="/">orvo ID</a></span>
+  <span>Почту используем только для приглашения.</span>
+</footer>
+
+<script src="/waitlist.js" defer></script>
+</body>
+</html>
